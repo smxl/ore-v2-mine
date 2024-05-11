@@ -94,7 +94,7 @@
 
 #### ORE Uninstall
 
-`rm /usr/local/bin/ore`
+`sudo rm /usr/local/bin/ore`
 
 #### Windows Screen Off
 
