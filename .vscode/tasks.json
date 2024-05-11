@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "WSL - Mine x Times",
+            "type": "shell",
+            "command": "${env:windir}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\wsl-mine-multiple.ps1",
+                "-timesToRun",
+                "${input:runTimes}"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "isBackground": false,
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "runTimes",
+            "type": "promptString",
+            "description": "Enter the number of times to run the script:",
+            "default": "1"
+        }
+    ]
+}
