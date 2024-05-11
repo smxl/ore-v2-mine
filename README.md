@@ -50,17 +50,17 @@
 
 克隆代码
 
-`git clone https://github.com/hardhatchad/ore`
+`git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore`
 
-`git clone https://github.com/hardhatchad/ore-cli`
+`git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/orecli`
 
 `git clone https://github.com/hardhatchad/drillx`
 
-切换至 V2
+~~切换至 V2~~
 
-`cd ore && git checkout hardhat/v2 && cd ..`
+~~`#cd ore && git checkout hardhat/v2 && cd ..`~~
 
-`cd ore-cli && git checkout hardhat/v2 && cd ..`
+~~`#cd ore-cli && git checkout hardhat/v2 && cd ..`~~
 
 领取测试网 gas
 
