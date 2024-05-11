@@ -76,7 +76,7 @@
 
 ### ORE V2 Mine
 
-1. Cli
+1. CLI 根据 CPU 逻辑处理器数量调整下面的线程数
 
 `ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --threads 16 --buffer-time 2`
 
