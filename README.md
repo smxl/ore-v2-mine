@@ -44,7 +44,7 @@
 
 `cd ~`
 
-克隆代码
+克隆 ORE V2 的代码
 
 `git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore`
 
