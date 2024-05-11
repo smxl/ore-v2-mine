@@ -1,0 +1,1 @@
+wsl bash -lc "bash mine.sh"
