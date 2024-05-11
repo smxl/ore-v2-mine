@@ -1,4 +1,4 @@
-# ORE v2 DEVNET
+# ORE V2 DEVNET
 
 ## WSL Install
 
@@ -18,13 +18,9 @@
 
 ## Debian ENV
 
-安装 curl 和 依赖
+安装依赖
 
-`sudo apt install curl`
-
-`sudo apt install git`
-
-`sudo apt install build-essential`
+`sudo apt install -y curl git build-essential`
 
 安装 Rust
 
