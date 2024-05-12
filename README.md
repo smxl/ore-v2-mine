@@ -20,7 +20,7 @@
 
 安装依赖
 
-`sudo apt install -y curl git build-essential`
+`sudo apt install -y curl git build-essential wget software-properties-common`
 
 安装 Rust
 
@@ -38,7 +38,13 @@
 
 `cp *.json $HOME/.config/solana/id.json`
 
-### ORE V2 Install
+### 领取测试网 gas
+
+`solana config set --url d`
+
+`solana airdrop 1`
+
+### ORE V2 准备
 
 切换路径
 
@@ -48,7 +54,7 @@
 
 `git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore`
 
-`git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/orecli`
+`git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore-cli`
 
 `git clone https://github.com/hardhatchad/drillx`
 
@@ -58,19 +64,35 @@
 
 ~~`#cd ore-cli && git checkout hardhat/v2 && cd ..`~~
 
-领取测试网 gas
+### 编译 ORE CPU
 
-`solana config set --url d`
-
-`solana airdrop 1`
-
-编译 ORE
-
-`cd ore-cli`
+`cd ~/ore-cli`
 
 `cargo build --release`
 
-复制 ORE
+#### CUDA & NVCC Install
+
+https://developer.nvidia.com/cuda-downloads
+
+https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-installed
+
+`curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && sudo apt-get update`
+
+`sudo apt-get install -y nvidia-container-toolkit`
+
+`sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml`
+
+`nvidia-ctk cdi list`
+
+`nvidia-smi`
+
+#### 编译 ORE GPU
+
+`cd ~/ore-cli`
+
+`cargo build --release --features="gpu"`
+
+### 复制 ORE
 
 `sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore`
 
@@ -95,17 +117,3 @@
 #### Windows Screen Off
 
 `(Add-Type '[DllImport("user32.dll")]public static extern int SendMessage(int hWnd, int hMsg, int wParam, int lParam);' -Name a -Pas)::SendMessage(-1,0x0112,0xF170,2)`
-
-#### ~~CUDA Install~~
-
-`curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && sudo apt-get update`
-
-`sudo nvidia-ctk runtime configure --runtime=docker`
-
-`sudo systemctl restart docker`
-
-`sudo apt-get install -y nvidia-container-toolkit`
-
-`sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml`
-
-`nvidia-ctk cdi list`
