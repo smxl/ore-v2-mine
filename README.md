@@ -98,11 +98,15 @@ https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-ins
 
 ### ORE V2 Mine
 
-1. CLI 根据 CPU 逻辑处理器数量调整下面的线程数
+1. 根据 CPU 逻辑处理器数量调整下面的数值, 可适当降低保留性能
 
-`ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --threads 16 --buffer-time 2`
+`ore --rpc https://rpc.ankr.com/solana_devnet --keypair ~/.config/solana/id.json mine --threads 16 --buffer-time 2`
 
-2. Bash 复制本项目 mine.sh 和 config.txt 后执行
+2. 根据 GPU 时钟频率 * 1000 调整下面的数值, 可适当降低保留性能
+
+`ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2 --clockrate 3400000`
+
+3. Bash 复制本项目 mine.sh 和 config.txt 后执行
 
 `bash mine.sh`
 
