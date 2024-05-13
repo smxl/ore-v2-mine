@@ -114,6 +114,26 @@ https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-ins
 
 `ore -h`
 
+#### ORE Update
+
+`rm -rf ~/ore*`
+
+`rm -rf ~/ore`
+
+`rm -rf ~/drillx`
+
+`git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore`
+
+`git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore-cli`
+
+`git clone https://github.com/hardhatchad/drillx`
+
+`cd ~/ore-cli`
+
+`cargo build --release --features="gpu"`
+
+`sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore`
+
 #### ORE Uninstall
 
 `sudo rm /usr/local/bin/ore`
