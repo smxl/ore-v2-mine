@@ -32,7 +32,7 @@
 
 生成自定义开头地址的私钥
 
-`solana-keygen grind —starts-and-ends-with PRE::1 —ignore-case >> seed.txt`
+`solana-keygen grind —starts-and-ends-with 自定义::1 —ignore-case >> seed.txt`
 
 复制私钥到默认路径
 
@@ -58,18 +58,6 @@
 
 `git clone https://github.com/hardhatchad/drillx`
 
-~~切换至 V2~~
-
-~~`#cd ore && git checkout hardhat/v2 && cd ..`~~
-
-~~`#cd ore-cli && git checkout hardhat/v2 && cd ..`~~
-
-### 编译 ORE CPU
-
-`cd ~/ore-cli`
-
-`cargo build --release`
-
 #### CUDA & NVCC Install
 
 https://developer.nvidia.com/cuda-downloads
@@ -92,15 +80,21 @@ https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-ins
 
 `cargo build --release --features="gpu"`
 
-### 复制 ORE
-
 `sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore`
+
+### 编译 ORE CPU
+
+`cd ~/ore-cli`
+
+`cargo build --release`
+
+`sudo cp ~/ore-cli/target/release/ore /usr/local/bin/orec`
 
 ### ORE V2 Mine
 
 1. 根据 CPU 逻辑处理器数量调整下面的数值, 可适当降低保留性能
 
-`ore --rpc https://rpc.ankr.com/solana_devnet --keypair ~/.config/solana/id.json mine --threads 16 --buffer-time 2`
+`orec --rpc https://rpc.ankr.com/solana_devnet --keypair ~/.config/solana/id.json mine --threads 16 --buffer-time 2`
 
 2. 根据 GPU 时钟频率 * 1000 调整下面的数值, 可适当降低保留性能
 
@@ -117,8 +111,6 @@ https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-ins
 #### ORE Update
 
 `rm -rf ~/ore*`
-
-`rm -rf ~/ore`
 
 `rm -rf ~/drillx`
 
