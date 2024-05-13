@@ -1,4 +1,4 @@
-# ORE V2 DEVNET
+# ORE V2 Mine on DEVNET
 
 ## WSL Install
 
@@ -104,15 +104,9 @@ https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-ins
 
 `bash mine.sh`
 
-#### ORE V2 Usage
-
-`ore -h`
-
 #### ORE Update
 
-`rm -rf ~/ore*`
-
-`rm -rf ~/drillx`
+`rm -rf ~/ore* && rm -rf ~/drillx`
 
 `git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore`
 
