@@ -74,19 +74,17 @@ https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-ins
 
 `nvidia-smi`
 
-#### 编译 ORE GPU
+#### 编译
 
 `cd ~/ore-cli`
+
+GPU 版本 (问题较多, 建议顺便编译 CPU 版本)
 
 `cargo build --release --features="gpu"`
 
 `sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore`
 
-### 编译 ORE CPU
-
-`cd ~/ore-cli`
-
-`cargo build --release`
+CPU 版本 (已编译完 GPU 版本时, 这个只需要几秒)
 
 `sudo cp ~/ore-cli/target/release/ore /usr/local/bin/orec`
 
@@ -105,6 +103,8 @@ https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-ins
 `bash mine.sh`
 
 #### ORE Update
+
+`cd ~`
 
 `rm -rf ~/ore* && rm -rf ~/drillx`
 
