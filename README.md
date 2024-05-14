@@ -1,8 +1,8 @@
 # ORE V2 Mine on DEVNET
 
-## WSL Install
+## 系统和环境
 
-安装 Debian
+安装 Debian, 可选, 其他 WSL 系统也可
 
 `wsl —install —distribution debian`
 
@@ -16,17 +16,17 @@
 
 `wsl`
 
-## Debian ENV
+Debian ENV
 
 安装依赖
 
 `sudo apt install -y curl git build-essential wget software-properties-common`
 
-安装 Rust
+安装 Rust 环境
 
 `curl —proto '=https' —tlsv1.2 -sSf https://sh.rustup.rs | sh`
 
-安装 Solana Cli
+安装 Solana CLI
 
 `sh -c "$(curl -sSfL https://release.solana.com/v1.18.12/install)"`
 
@@ -38,7 +38,7 @@
 
 `cp *.json $HOME/.config/solana/id.json`
 
-### 领取测试网 gas
+领取测试网 gas
 
 `solana config set --url d`
 
@@ -50,7 +50,7 @@
 
 `cd ~`
 
-克隆 ORE V2 的代码
+克隆 ORE V2 代码
 
 `git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore`
 
@@ -60,19 +60,23 @@
 
 #### CUDA & NVCC Install
 
+根据系统安装 CUDA
+
 https://developer.nvidia.com/cuda-downloads
+
+修复 NVCC 问题
 
 https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-installed
 
-`curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && sudo apt-get update`
+~~`curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && sudo apt-get update`~~
 
-`sudo apt-get install -y nvidia-container-toolkit`
+~~`sudo apt-get install -y nvidia-container-toolkit`~~
 
-`sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml`
+~~`sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml`~~
 
-`nvidia-ctk cdi list`
+~~`nvidia-ctk cdi list`~~
 
-`nvidia-smi`
+~~`nvidia-smi`~~
 
 #### 编译
 
@@ -92,9 +96,9 @@ CPU 版本 (可选, 已编译完 GPU 版本时只要几秒)
 
 1. 根据 CPU 逻辑处理器数量调整下面的数值, 可适当降低保留性能
 
-`orec --rpc https://rpc.ankr.com/solana_devnet --keypair ~/.config/solana/id.json mine --threads 16 --buffer-time 2`
+`orec --rpc https://rpc.ankr.com/solana_devnet --keypair ~/.config/solana/id.json mine --buffer-time 2 --threads 16`
 
-2. 根据 GPU 时钟频率 * 1000 调整下面的数值, 可适当降低保留性能,  --clockrate 参数已丢弃
+2. ~~根据 GPU 时钟频率 * 1000 调整下面的数值, 可适当降低保留性能,  ~~ --clockrate 参数已丢弃
 
 `ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2`
 
