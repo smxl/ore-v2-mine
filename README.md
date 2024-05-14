@@ -104,9 +104,7 @@ GPU 挖矿 ~~根据 GPU 时钟频率 * 1000 调整下面的数值, 可适当降�
 
 `ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2`
 
-3. Bash 复制本项目 mine.sh 和 config.txt 后执行
-
-`bash mine.sh`
+可选, Bash 复制本项目 mine.sh 和 config.txt 后执行 `bash mine.sh`
 
 #### ORE Update
 
