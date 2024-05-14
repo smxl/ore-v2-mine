@@ -30,7 +30,7 @@
 
 `sh -c "$(curl -sSfL https://release.solana.com/v1.18.12/install)"`
 
-生成自定义开头地址的私钥
+生成自定义开头地址的私钥, 自定义可选
 
 `solana-keygen grind —starts-and-ends-with 自定义::1 —ignore-case >> seed.txt`
 
@@ -78,13 +78,13 @@ https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-ins
 
 `cd ~/ore-cli`
 
-GPU 版本 (问题较多, 建议顺便编译 CPU 版本)
+GPU 版本 (建议顺便编译 CPU 版本)
 
 `cargo build --release --features="gpu"`
 
 `sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore`
 
-CPU 版本 (已编译完 GPU 版本时, 这个只需要几秒)
+CPU 版本 (可选, 已编译完 GPU 版本时只要几秒)
 
 `sudo cp ~/ore-cli/target/release/ore /usr/local/bin/orec`
 
@@ -94,9 +94,9 @@ CPU 版本 (已编译完 GPU 版本时, 这个只需要几秒)
 
 `orec --rpc https://rpc.ankr.com/solana_devnet --keypair ~/.config/solana/id.json mine --threads 16 --buffer-time 2`
 
-2. 根据 GPU 时钟频率 * 1000 调整下面的数值, 可适当降低保留性能
+2. 根据 GPU 时钟频率 * 1000 调整下面的数值, 可适当降低保留性能,  --clockrate 参数已丢弃
 
-`ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2 --clockrate 3400000`
+`ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2`
 
 3. Bash 复制本项目 mine.sh 和 config.txt 后执行
 
