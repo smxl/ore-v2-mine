@@ -94,11 +94,11 @@ CPU 版本 (可选, 已编译完 GPU 版本时只要几秒)
 
 ### ORE V2 Mine
 
-1. 根据 CPU 逻辑处理器数量调整下面的数值, 可适当降低保留性能
+根据 CPU 逻辑处理器数量调整线程数, 可适当降低保留性能
 
 `orec --rpc https://rpc.ankr.com/solana_devnet --keypair ~/.config/solana/id.json mine --buffer-time 2 --threads 16`
 
-2. ~~根据 GPU 时钟频率 * 1000 调整下面的数值, 可适当降低保留性能,  ~~ --clockrate 参数已丢弃
+GPU 挖矿 ~~根据 GPU 时钟频率 * 1000 调整下面的数值, 可适当降低保留性能~~ --clockrate 参数已丢弃
 
 `ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2`
 
