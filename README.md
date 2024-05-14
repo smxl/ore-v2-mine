@@ -82,13 +82,15 @@ https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-ins
 
 `cd ~/ore-cli`
 
-GPU 版本 (建议顺便编译 CPU 版本)
+GPU 版本
 
 `cargo build --release --features="gpu"`
 
 `sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore`
 
-CPU 版本 (可选, 已编译完 GPU 版本时只要几秒)
+CPU 版本 (可选, 已编译完 GPU 版本时执行只要几秒)
+
+`cargo build --release`
 
 `sudo cp ~/ore-cli/target/release/ore /usr/local/bin/orec`
 
