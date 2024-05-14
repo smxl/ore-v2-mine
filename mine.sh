@@ -22,7 +22,6 @@ declare -a RPC_URLs=()
 while IFS='=' read -r key value; do
     case "$key" in
         "DEFAULT_TIME") DEFAULT_TIME="$value" ;;
-        "DEFAULT_THREADS") DEFAULT_THREADS="$value" ;;
         "RPC_URL") RPC_URLs+=("$value") ;;
     esac
 done < "$CONFIG_FILE"
@@ -38,7 +37,6 @@ execute_command() {
   local rpc_url="$1"
   local key="$2"
   local time="$3"
-  local threads="$4"
   local command="ore --rpc \"$rpc_url\" --keypair \"$key\" mine --buffer-time $time"
 
   while true; do
@@ -57,7 +55,6 @@ execute_command() {
 RPC_URL=${1:-$(get_random_rpc_url "${RPC_URLs[@]}")}
 KEY=${2:-$HOME/.config/solana/id.json}
 TIME=${3:-$DEFAULT_TIME}
-THREADS=${4:-$DEFAULT_THREADS}
 
 # Execute the main function
-execute_command "$RPC_URL" "$KEY" "$TIME" "$THREADS"
+execute_command "$RPC_URL" "$KEY" "$TIME"
