@@ -39,7 +39,7 @@ execute_command() {
   local key="$2"
   local time="$3"
   local threads="$4"
-  local command="ore --rpc \"$rpc_url\" --keypair \"$key\" mine --threads $threads --buffer-time $time"
+  local command="ore --rpc \"$rpc_url\" --keypair \"$key\" mine --buffer-time $time"
 
   while true; do
     echo "Starting the process with RPC: $rpc_url"
