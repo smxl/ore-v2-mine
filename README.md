@@ -1,6 +1,6 @@
 ORE V2 Mine on DEVNET
 
-[CN](https://github.com/smxl/ore-v2-mine/blob/main/README_GPT.md)
+[CN](https://github.com/smxl/ore-v2-mine/blob/main/README_CN.md)
 
 ### Perpare
 
