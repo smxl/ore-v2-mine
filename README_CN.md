@@ -1,5 +1,7 @@
 这里是一个 GPT 优化教程帮助你在 DEVNET 上安装和配置 ORE V2
 
+[EN](https://github.com/smxl/ore-v2-mine/blob/main/README.md)
+
 ---
 
 ## ORE V2 Mine on DEVNET
