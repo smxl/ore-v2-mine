@@ -1,6 +1,6 @@
 ORE V2 Mine on DEVNET
 
-## 系统和环境
+### 系统和环境
 
 安装 Debian, 可选
 
