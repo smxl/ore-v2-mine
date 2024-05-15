@@ -2,14 +2,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "WSL - Mine x Times",
+            "label": "Run Multiple Times",
             "type": "shell",
             "command": "${env:windir}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
             "args": [
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",
-                "${workspaceFolder}\\wsl-mine-multiple.ps1",
+                "${workspaceFolder}\\wsl-multiple.ps1",
                 "-timesToRun",
                 "${input:runTimes}"
             ],

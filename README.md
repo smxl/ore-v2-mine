@@ -1,115 +1,128 @@
-ORE V2 Mine on DEVNET
+# ORE V2 Mining on DEVNET
 
-[CN](https://github.com/smxl/ore-v2-mine/blob/main/README_CN.md)
+[View in Chinese (中文)](https://github.com/smxl/ore-v2-mine/blob/main/README_CN.md)
 
-### Perpare
+## Preparation
 
-Install Debian, optional
+1. **Install Debian (optional)**
 
-`wsl --install debian`
+   ```bash
+   wsl --install debian
+   wsl --setdefault Debian
+   wsl
+   ```
 
-Set Debian as Default
+2. **Install Dependencies**
 
-`wsl --setdefault Debian`
+   ```bash
+   sudo apt install -y curl wget git build-essential software-properties-common
+   ```
 
-Enter WSL
+3. **Install Rust**
 
-`wsl`
+   ```bash
+   curl https://sh.rustup.rs -sSf | sh
+   ```
 
-Install dependencies
+4. **Install Solana CLI**
 
-`sudo apt install -y curl wget git build-essential software-properties-common`
+   ```bash
+   sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
+   ```
 
-Install Rust
+5. **Generate Private Key with Vanity Address**
 
-`curl https://sh.rustup.rs -sSf | sh`
+   ```bash
+   cd ~
+   solana-keygen grind -starts-and-ends-with YOUR::1 -ignore-case >> seed.txt
+   cp ~/*.json $HOME/.config/solana/id.json
+   ```
 
-Install Solana CLI, restart the terminal when finished
+6. **Get DEVNET Gas**
 
-`sh -c "$(curl -sSfL https://release.solana.com/stable/install)"`
+   ```bash
+   solana config set --url d
+   solana airdrop 1
+   ```
 
-Generate private key with vanity address, customize is optional
+7. **Clone Repositories**
 
-`cd ~`
+   ```bash
+   cd ~
+   git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore
+   git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore-cli
+   git clone https://github.com/hardhatchad/drillx
+   ```
 
-`solana-keygen grind -starts-and-ends-with YOUR::1 -ignore-case >> seed.txt`
+8. **Configure CUDA & NVCC (if needed)**
 
-Copy the private key to the default path
+   See [CUDA Downloads](https://developer.nvidia.com/cuda-downloads) for your system.
 
-`cp ~/*.json $HOME/.config/solana/id.json`
+   ```bash
+   wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb && sudo dpkg -i cuda-keyring_1.1-1_all.deb
+   sudo add-apt-repository contrib && sudo apt-get update
+   sudo apt-get -y install cuda-toolkit-12-4 nvidia-kernel-open-dkms cuda-drivers
+   ```
 
-Getting Dev Net Gas
+9. **Fix NVCC Issues (if encountered)**
 
-`solana config set --url d && solana airdrop 1`
+   See [NVCC Installation Issues](https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-installed).
 
-Cloning the ORE V2 branch
+   ```bash
+   echo -e "\nexport CUDA_HOME=/usr/local/cuda\nexport LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64\nexport PATH=\$PATH:\$CUDA_HOME/bin" >> ~/.bashrc
+   ```
 
-`cd ~`
+## Compilation
 
-`git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore`
+1. **Compile ore-cli**
 
-`git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore-cli`
+   ```bash
+   cd ~/ore-cli
+   ```
 
-`git clone https://github.com/hardhatchad/drillx`
+   For GPU:
 
-Configuring CUDA & NVCC, Depending your system
+   ```bash
+   cargo build --release --features="gpu"
+   sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore
+   ```
 
-https://developer.nvidia.com/cuda-downloads
+   For CPU:
 
-Debian Reference
+   ```bash
+   cargo build --release
+   sudo cp ~/ore-cli/target/release/ore /usr/local/bin/orec
+   ```
 
-`wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb && sudo dpkg -i cuda-keyring_1.1-1_all.deb`
+2. **Start Mining**
 
-`sudo add-apt-repository contrib && sudo apt-get update`
+   ```bash
+   ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2
+   ```
 
-`sudo apt-get -y install cuda-toolkit-12-4 nvidia-kernel-open-dkms cuda-drivers`
+## ORE Update
 
-Fixing NVCC Issues
+```bash
+cd ~
+rm -rf ~/ore* && rm -rf ~/drillx
+git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore
+git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore-cli
+git clone https://github.com/hardhatchad/drillx
+cd ~/ore-cli
+cargo build --release --features="gpu"
+sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore
+```
 
-https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-installed
+## ORE Uninstall
 
-`echo -e "\nexport CUDA_HOME=/usr/local/cuda\nexport LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64\nexport PATH=\$PATH:\$CUDA_HOME/bin" >> ~/.bashrc`
+```bash
+sudo rm /usr/local/bin/ore
+```
 
-#### Compile
+## Windows Screen Off
 
-`cd ~/ore-cli`
+To turn off the screen in Windows, you can use the following command in PowerShell:
 
-GPU
-
-`cargo build --release --features="gpu"`
-
-`sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore`
-
-CPU
-
-`cargo build --release && sudo cp ~/ore-cli/target/release/ore /usr/local/bin/orec`
-
-Mine
-
-`ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2`
-
-#### ORE Update
-
-`cd ~`
-
-`rm -rf ~/ore* && rm -rf ~/drillx`
-
-`git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore`
-
-`git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore-cli`
-
-`git clone https://github.com/hardhatchad/drillx`
-
-`cd ~/ore-cli`
-
-`cargo build --release --features="gpu"`
-
-`sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore`
-
-#### ORE Uninstall
-
-`sudo rm /usr/local/bin/ore`
-
-#### Windows Screen Off
-
-`(Add-Type '[DllImport("user32.dll")]public static extern int SendMessage(int hWnd, int hMsg, int wParam, int lParam);' -Name a -Pas)::SendMessage(-1,0x0112,0xF170,2)`
+```powershell
+(Add-Type '[DllImport("user32.dll")]public static extern int SendMessage(int hWnd, int hMsg, int wParam, int lParam);' -Name a -Pas)::SendMessage(-1,0x0112,0xF170,2)
+```

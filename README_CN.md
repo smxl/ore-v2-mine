@@ -1,6 +1,6 @@
 这里是一个 GPT 优化教程帮助你在 DEVNET 上安装和配置 ORE V2
 
-[EN](https://github.com/smxl/ore-v2-mine/blob/main/README.md)
+[View in English](https://github.com/smxl/ore-v2-mine/blob/main/README.md)
 
 ---
 
@@ -169,7 +169,3 @@ sudo rm /usr/local/bin/ore
 ```sh
 (Add-Type '[DllImport("user32.dll")]public static extern int SendMessage(int hWnd, int hMsg, int wParam, int lParam);' -Name a -Pas)::SendMessage(-1,0x0112,0xF170,2)
 ```
-
----
-
-这样应该更加清晰和结构化，便于阅读和操作。
