@@ -22,17 +22,17 @@ Debian ENV
 
 安装 Rust 环境
 
-`curl —proto '=https' —tlsv1.2 -sSf https://sh.rustup.rs | sh`
+`curl https://sh.rustup.rs -sSf | sh`
 
 安装 Solana CLI
 
-`sh -c "$(curl -sSfL https://release.solana.com/v1.18.12/install)"`
+`sh -c "$(curl -sSfL https://release.solana.com/stable/install)"`
 
 生成自定义开头地址的私钥, 自定义可选
 
 `cd ~`
 
-`solana-keygen grind —starts-and-ends-with 自定义::1 —ignore-case >> seed.txt`
+`solana-keygen grind -starts-and-ends-with 自定义::1 -ignore-case >> seed.txt`
 
 复制私钥到默认路径
 
