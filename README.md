@@ -1,16 +1,14 @@
-# ORE V2 Mine on DEVNET
+ORE V2 Mine on DEVNET
 
 ## 系统和环境
 
-安装 Debian, 可选, 其他 WSL 系统也可
+安装 Debian, 可选
 
-`wsl —install —distribution debian`
-
-`wsl —install debian`
+`wsl --install debian`
 
 设置 Debian 为默认 WSL
 
-`wsl —setdefault Debian`
+`wsl --setdefault Debian`
 
 进入系统
 
@@ -20,7 +18,7 @@ Debian ENV
 
 安装依赖
 
-`sudo apt install -y curl git build-essential wget software-properties-common`
+`sudo apt install -y curl wget git build-essential software-properties-common`
 
 安装 Rust 环境
 
@@ -32,11 +30,13 @@ Debian ENV
 
 生成自定义开头地址的私钥, 自定义可选
 
+`cd ~`
+
 `solana-keygen grind —starts-and-ends-with 自定义::1 —ignore-case >> seed.txt`
 
 复制私钥到默认路径
 
-`cp *.json $HOME/.config/solana/id.json`
+`cp ~/*.json $HOME/.config/solana/id.json`
 
 领取测试网 gas
 
@@ -44,13 +44,9 @@ Debian ENV
 
 `solana airdrop 1`
 
-### ORE V2 准备
-
-切换路径
+克隆 ORE V2 分支
 
 `cd ~`
-
-克隆 ORE V2 代码
 
 `git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore`
 
@@ -58,23 +54,27 @@ Debian ENV
 
 `git clone https://github.com/hardhatchad/drillx`
 
-#### CUDA & NVCC Install
+环境配置 CUDA & NVCC Install
 
 根据系统安装 CUDA
 
 https://developer.nvidia.com/cuda-downloads
 
+Debian 参考
+
+`wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb && sudo dpkg -i cuda-keyring_1.1-1_all.deb`
+
+`sudo add-apt-repository contrib && sudo apt-get update`
+
+`sudo apt-get -y install cuda-toolkit-12-4 nvidia-kernel-open-dkms cuda-drivers`
+
 修复 NVCC 问题
 
 https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-installed
 
-~~`curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && sudo apt-get update`~~
+~~`curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit`~~
 
-~~`sudo apt-get install -y nvidia-container-toolkit`~~
-
-~~`sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml`~~
-
-~~`nvidia-ctk cdi list`~~
+~~`sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml && nvidia-ctk cdi list`~~
 
 ~~`nvidia-smi`~~
 
