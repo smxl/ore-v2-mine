@@ -80,7 +80,7 @@
    cd ~/ore-cli
    ```
 
-   For GPU:
+   ~~For GPU:~~
 
    ```bash
    cargo build --release --features="gpu"
@@ -91,13 +91,21 @@
 
    ```bash
    cargo build --release
-   sudo cp ~/ore-cli/target/release/ore /usr/local/bin/orec
+   sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore
    ```
 
 2. **Start Mining**
 
+   ~~For GPU:~~
+
    ```bash
    ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2
+   ```
+
+   For CPU:
+
+   ```bash
+   ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2 --threads 16
    ```
 
 ## ORE Update
