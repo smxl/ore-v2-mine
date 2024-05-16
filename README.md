@@ -34,7 +34,7 @@
 
    ```bash
    cd ~
-   solana-keygen grind -starts-and-ends-with YOUR::1 -ignore-case >> seed.txt
+   solana-keygen grind --starts-and-ends-with YOUR::1 --ignore-case >> seed.txt
    cp ~/*.json $HOME/.config/solana/id.json
    ```
 
