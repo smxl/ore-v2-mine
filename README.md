@@ -54,7 +54,7 @@
    git clone https://github.com/hardhatchad/drillx
    ```
 
-8. **Configure CUDA & NVCC (if needed)**
+8. **Configure CUDA & NVCC (no needed)**
 
    See [CUDA Downloads](https://developer.nvidia.com/cuda-downloads) for your system.
 
@@ -64,7 +64,7 @@
    sudo apt-get -y install cuda-toolkit-12-4 nvidia-kernel-open-dkms cuda-drivers
    ```
 
-9. **Fix NVCC Issues (if encountered)**
+9. **Fix NVCC Issues (no needed)**
 
    See [NVCC Installation Issues](https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-installed).
 
@@ -105,7 +105,7 @@
    For CPU:
 
    ```bash
-   ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2 --threads 16
+   ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2 --threads 12
    ```
 
 ## ORE Update
@@ -117,7 +117,7 @@ git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore
 git clone -b hardhat/v2 --single-branch https://github.com/hardhatchad/ore-cli
 git clone https://github.com/hardhatchad/drillx
 cd ~/ore-cli
-cargo build --release --features="gpu"
+cargo build --release
 sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore
 ```
 
