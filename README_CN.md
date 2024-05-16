@@ -52,7 +52,7 @@ sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
 
 2. 生成自定义开头地址的私钥:
     ```sh
-    solana-keygen grind -starts-and-ends-with 自定义::1 -ignore-case >> seed.txt
+    solana-keygen grind --starts-and-ends-with 自定义::1 --ignore-case >> seed.txt
     ```
 
 3. 复制私钥到默认路径:
