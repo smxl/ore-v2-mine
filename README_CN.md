@@ -85,7 +85,7 @@ solana airdrop 1
     git clone https://github.com/hardhatchad/drillx
     ```
 
-### 配置 CUDA & NVCC
+### ~~配置 CUDA & NVCC~~
 
 1. 下载并安装 CUDA 密钥环:
     ```sh
@@ -104,7 +104,7 @@ solana airdrop 1
     sudo apt-get -y install cuda-toolkit-12-4 nvidia-kernel-open-dkms cuda-drivers
     ```
 
-#### 修复 NVCC 问题
+#### ~~修复 NVCC 问题~~
 
 1. 添加 CUDA 环境变量:
     ```sh
@@ -118,7 +118,7 @@ solana airdrop 1
     cd ~/ore-cli
     ```
 
-2. 使用 GPU 编译:
+2. ~~使用 GPU 编译:~~
     ```sh
     cargo build --release --features="gpu"
     sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore
@@ -127,14 +127,22 @@ solana airdrop 1
 3. 使用 CPU 编译:
     ```sh
     cargo build --release
-    sudo cp ~/ore-cli/target/release/ore /usr/local/bin/orec
+    sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore
     ```
 
 ### 挖矿
 
-```sh
-ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2
-```
+   ~~For GPU:~~
+
+   ```bash
+   ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2
+   ```
+
+   For CPU:
+
+   ```bash
+   ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine --buffer-time 2 --threads 12
+   ```
 
 ### ORE 更新
 
@@ -154,7 +162,7 @@ ore --rpc https://api.devnet.solana.com --keypair ~/.config/solana/id.json mine 
 3. 编译新版本:
     ```sh
     cd ~/ore-cli
-    cargo build --release --features="gpu"
+    cargo build --release
     sudo cp ~/ore-cli/target/release/ore /usr/local/bin/ore
     ```
 
