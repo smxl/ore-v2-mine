@@ -1,70 +1,87 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Ensure the ore command is available
-if ! command -v ore &> /dev/null; then
-    echo "ore not found."
-    exit 1
-fi
-
-# Configuration file
+# Configuration
 CONFIG_FILE="./config.txt"
+DEFAULT_KEY="$HOME/.config/solana/id.json"
 
-# Check if the config file exists
-if [ ! -f "$CONFIG_FILE" ]; then
-    echo "config.txt not found."
-    exit 1
-fi
-
-# Initialize the RPC_URLs array
-declare -a RPC_URLs=()
-
-# Load configurations from config file
-while IFS='=' read -r key value; do
-    # Remove leading and trailing whitespace
-    key=$(echo "$key" | xargs)
-    value=$(echo "$value" | xargs)
-    
-    case "$key" in
-        "DEFAULT_TIME") DEFAULT_TIME="$value" ;;
-        "RPC_URL") RPC_URLs+=("$value") ;;
-    esac
-done < "$CONFIG_FILE"
-
-# Ensure there is at least one RPC_URL
-if [ ${#RPC_URLs[@]} -eq 0 ]; then
-    echo "No RPC_URL found in config.txt."
-    exit 1
-fi
-
-# Get a random URL from a list of URLs
-get_random_rpc_url() {
-    local urls=("$@")
-    echo "${urls[RANDOM % ${#urls[@]}]}"
+# Function to log messages
+log() {
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1"
 }
 
-# Execute command and handle potential failures
-execute_command() {
-    local rpc_url="$1"
-    local key="$2"
-    local time="$3"
-    local command="ore --rpc \"$rpc_url\" --keypair \"$key\" mine --buffer-time $time"
+# Function to trim whitespace
+trim() {
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"   
+    printf '%s' "$var"
+}
 
+# Function to check if a command exists
+command_exists() {
+    command -v "$1" &> /dev/null
+}
+
+# Function to get a random URL from a list
+get_random_rpc_url() {
+    if command_exists shuf; then
+        shuf -n1 -e "$@"
+    else
+        # Fallback to bash's $RANDOM if shuf is not available
+        local urls=("$@")
+        echo "${urls[RANDOM % ${#urls[@]}]}"
+    fi
+}
+
+# Function to execute command and handle failures
+execute_command() {
+    local rpc_url="$1" key="$2" time="$3"
+    local command=(ore --rpc "$rpc_url" --keypair "$key" mine --buffer-time "$time")
+    
     while true; do
-        echo "Starting the process with RPC: $rpc_url"
-        if eval "$command"; then
-            echo "Process completed."
+        log "Starting the process with RPC: $rpc_url"
+        if "${command[@]}"; then
+            log "Process completed."
             break
         else
-            echo "Process exited with error $?; retrying in 5 seconds..."
+            log "Process exited with error $?; retrying in 5 seconds..."
             sleep 5
         fi
     done
 }
 
-# Assign arguments with defaults or configurations
+# Check for ore command
+command_exists ore || { log "ore not found."; exit 1; }
+
+# Check for config file
+[[ -f "$CONFIG_FILE" ]] || { log "config.txt not found."; exit 1; }
+
+# Load configurations
+declare -A config
+while IFS='=' read -r key value; do
+    key=$(trim "$key")
+    value=$(trim "$value")
+    [[ -n "$key" && -n "$value" ]] && config["$key"]="$value"
+done < "$CONFIG_FILE"
+
+# Validate configurations
+[[ -v "config[DEFAULT_TIME]" ]] || { log "DEFAULT_TIME not found in config."; exit 1; }
+[[ "${#config[@]}" -gt 1 ]] || { log "No RPC_URL found in config."; exit 1; }
+
+# Prepare RPC URLs
+RPC_URLs=()
+for key in "${!config[@]}"; do
+    [[ "$key" == RPC_URL ]] && RPC_URLs+=("${config[$key]}")
+done
+[[ ${#RPC_URLs[@]} -gt 0 ]] || { log "No RPC_URL found in config."; exit 1; }
+
+# Parse command line arguments
 RPC_URL=${1:-$(get_random_rpc_url "${RPC_URLs[@]}")}
-KEY=${2:-$HOME/.config/solana/id.json}
-TIME=${3:-$DEFAULT_TIME}
+KEY=${2:-$DEFAULT_KEY}
+TIME=${3:-${config[DEFAULT_TIME]}}
 
 # Execute the main function
 execute_command "$RPC_URL" "$KEY" "$TIME"
