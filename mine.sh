@@ -2,7 +2,8 @@
 set -euo pipefail
 
 # Configuration
-CONFIG_FILE="./config.txt"
+DEFAULT_TIME=2
+RPC_URL=("https://api.mainnet-beta.solana.com" "")
 DEFAULT_KEY="$HOME/.config/solana/id.json"
 
 # Function to log messages
@@ -13,9 +14,7 @@ log() {
 # Function to trim whitespace
 trim() {
     local var="$*"
-    # remove leading whitespace characters
     var="${var#"${var%%[![:space:]]*}"}"
-    # remove trailing whitespace characters
     var="${var%"${var##*[![:space:]]}"}"   
     printf '%s' "$var"
 }
@@ -30,7 +29,6 @@ get_random_rpc_url() {
     if command_exists shuf; then
         shuf -n1 -e "$@"
     else
-        # Fallback to bash's $RANDOM if shuf is not available
         local urls=("$@")
         echo "${urls[RANDOM % ${#urls[@]}]}"
     fi
@@ -43,6 +41,7 @@ execute_command() {
     
     while true; do
         log "Starting the process with RPC: $rpc_url"
+        log "Executing command: ${command[*]}"
         if "${command[@]}"; then
             log "Process completed."
             break
@@ -56,32 +55,17 @@ execute_command() {
 # Check for ore command
 command_exists ore || { log "ore not found."; exit 1; }
 
-# Check for config file
-[[ -f "$CONFIG_FILE" ]] || { log "config.txt not found."; exit 1; }
-
-# Load configurations
-declare -A config
-while IFS='=' read -r key value; do
-    key=$(trim "$key")
-    value=$(trim "$value")
-    [[ -n "$key" && -n "$value" ]] && config["$key"]="$value"
-done < "$CONFIG_FILE"
-
-# Validate configurations
-[[ -v "config[DEFAULT_TIME]" ]] || { log "DEFAULT_TIME not found in config."; exit 1; }
-[[ "${#config[@]}" -gt 1 ]] || { log "No RPC_URL found in config."; exit 1; }
-
-# Prepare RPC URLs
+# Remove empty RPC URLs
 RPC_URLs=()
-for key in "${!config[@]}"; do
-    [[ "$key" == RPC_URL ]] && RPC_URLs+=("${config[$key]}")
+for url in "${RPC_URL[@]}"; do
+    [[ -n "$url" ]] && RPC_URLs+=("$url")
 done
-[[ ${#RPC_URLs[@]} -gt 0 ]] || { log "No RPC_URL found in config."; exit 1; }
+[[ ${#RPC_URLs[@]} -gt 0 ]] || { log "No valid RPC_URL found in config."; exit 1; }
 
 # Parse command line arguments
 RPC_URL=${1:-$(get_random_rpc_url "${RPC_URLs[@]}")}
 KEY=${2:-$DEFAULT_KEY}
-TIME=${3:-${config[DEFAULT_TIME]}}
+TIME=${3:-$DEFAULT_TIME}
 
 # Execute the main function
 execute_command "$RPC_URL" "$KEY" "$TIME"
